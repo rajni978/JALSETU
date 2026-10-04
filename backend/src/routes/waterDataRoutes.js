@@ -1,49 +1,18 @@
 import express from "express";
-import WaterData from "../models/WaterData.js";
+import { createWaterData,getWaterdata,getWaterdataById,updatedWaterData,deleteWaterData,getWaterRiskScore} from "../controllers/waterDataController.js";
 
-const router = express.Router();
+const router = express.Router()
 
-router.post("/water-data", async (req, res) => {
-    try {
-        const {
-            location,
-            groundwaterLevel,
-            rainfall,
-            waterBodyCondition
-        } = req.body;
+router.post("/water-data",createWaterData);
 
-        if (
-            !location ||
-            groundwaterLevel === undefined ||
-            rainfall === undefined ||
-            !waterBodyCondition
-        ) {
-            return res.status(400).json({
-                success: false,
-                message: "All fields are required"
-            });
-        }
+router.get("/water-data",getWaterdata)
 
-        const waterData = await WaterData.create({
-            location,
-            groundwaterLevel,
-            rainfall,
-            waterBodyCondition
-        });
+router.get("/water-data/:id",getWaterdataById);
+router.put("/water-data/:id",updatedWaterData);
 
-        res.status(201).json({
-            success: true,
-            message: "Water data created successfully",
-            waterData
-        });
+router.delete("/water-data/:id",deleteWaterData)
 
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Server error",
-            error: error.message
-        });
-    }
-});
+router.get("/water-data/:id/risk",getWaterRiskScore)
+
 
 export default router;

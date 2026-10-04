@@ -4,6 +4,8 @@ import connectDB from "./config/db.js";
 import reportRoutes from "./routes/reportRoutes.js"
 import waterDataRoutes from "./routes/waterDataRoutes.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
+import authRoutes from "./routes/authRoute.js";
 
 dotenv.config()
 
@@ -11,6 +13,7 @@ const app = express()
 app.use(express.json());
 
 app.use(express.json())
+
 
 connectDB()
 
@@ -31,6 +34,8 @@ app.get("/api/health",(req,res)=>{
 
 app.use("/api",reportRoutes);
 app.use("/api", waterDataRoutes);
+app.use("/api", dashboardRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use(errorMiddleware);
 
