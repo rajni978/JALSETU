@@ -11,6 +11,8 @@ import suggestionRoutes from "./routes/suggestionRoutes.js";
 import panchayatRoutes from "./routes/panchayatRoutes.js";
 import priorityRoutes from "./routes/priorityRoutes.js";
 import monitoringRoutes from "./routes/monitoringRoutes.js";
+import panchayatDashboardRoutes
+    from "./routes/panchayatDashboardRoutes.js";
 
 dotenv.config()
 
@@ -46,6 +48,14 @@ app.use("/api/suggestions", suggestionRoutes);
 app.use("/api/panchayats", panchayatRoutes);
 app.use("/api/priority", priorityRoutes);
 app.use("/api/monitoring", monitoringRoutes);
+app.use( "/api/panchayat-dashboard", panchayatDashboardRoutes);
+
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: `Route ${req.originalUrl} not found`
+    });
+});
 
 app.use(errorMiddleware);
 
