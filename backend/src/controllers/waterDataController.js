@@ -2,23 +2,36 @@ import WaterData from "../models/WaterData.js";
 
 const createWaterData = async (req,res,next) => {
     try {
-        const {location,groundWaterLevel,rainfall,waterBodyCondition} = req.body;
+        const {
+    location,
+    groundwaterLevel,
+    rainfall,
+    waterBodyCondition,
+    latitude,
+    longitude
+} = req.body;
 
-        if (!location || groundWaterLevel===undefined ||
-            rainfall===undefined||
-            !waterBodyCondition
-        ){
-            return res.status(400).json({
-                success:false,
-                message:"All fields are required"
-            })
-        }
+        if (
+    !location ||
+    groundwaterLevel === undefined ||
+    rainfall === undefined ||
+    !waterBodyCondition ||
+    latitude === undefined ||
+    longitude === undefined
+) {
+    return res.status(400).json({
+        success: false,
+        message: "All fields are required"
+    });
+}
 
         const waterData = await WaterData.create({
             location,
             groundwaterLevel,
             rainfall,
-            waterBodyCondition
+            waterBodyCondition,
+            latitude,
+            longitude
         })
 
         res.status(200).json({
@@ -74,19 +87,23 @@ const updatedWaterData = async (req,res,next) => {
     try {
         const {id} = req.params;
 
-        const {location,groundWaterLevel,rainfall,waterBodyCondition} = req.body;
+        const {location,groundwaterLevel,rainfall,waterBodyCondition} = req.body;
 
-        const waterData = await WaterData.findByIdAndUpdate(id,
-            {
-                location,
-                groundWaterLevel,
-                rainfall,
-                waterBodyCondition
-            },
-            {
-                returnDocument:"after",
-                runValidators:true
-            })
+        const waterData = await WaterData.findByIdAndUpdate(
+    id,
+    {
+        location,
+        groundwaterLevel,
+        rainfall,
+        waterBodyCondition,
+        latitude,
+        longitude
+    },
+    {
+        new: true,
+        runValidators: true
+    }
+);
 
             if(!waterData){
                 return res.status(404).json({

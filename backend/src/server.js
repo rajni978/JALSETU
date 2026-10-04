@@ -6,6 +6,11 @@ import waterDataRoutes from "./routes/waterDataRoutes.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import authRoutes from "./routes/authRoute.js";
+import actionRoutes from "./routes/actionRoutes.js";
+import suggestionRoutes from "./routes/suggestionRoutes.js";
+import panchayatRoutes from "./routes/panchayatRoutes.js";
+import priorityRoutes from "./routes/priorityRoutes.js";
+import monitoringRoutes from "./routes/monitoringRoutes.js";
 
 dotenv.config()
 
@@ -36,6 +41,11 @@ app.use("/api",reportRoutes);
 app.use("/api", waterDataRoutes);
 app.use("/api", dashboardRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/actions", actionRoutes);
+app.use("/api/suggestions", suggestionRoutes);
+app.use("/api/panchayats", panchayatRoutes);
+app.use("/api/priority", priorityRoutes);
+app.use("/api/monitoring", monitoringRoutes);
 
 app.use(errorMiddleware);
 

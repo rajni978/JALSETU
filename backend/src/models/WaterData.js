@@ -21,6 +21,15 @@ const waterDataSchema = new mongoose.Schema(
             type: String,
             enum: ["Good", "Moderate", "Poor"],
             required: true
+        },
+        latitude: {
+            type: Number,
+            required: true
+        },
+
+        longitude: {
+            type: Number,
+            required: true
         }
     },
     {
