@@ -10,9 +10,6 @@ import ErrorState from '../components/common/ErrorState';
 import AreaSelector from '../components/common/AreaSelector';
 
 
-const [population, setPopulation] = useState(null);
-const [populationLoading, setPopulationLoading] = useState(false);
-const [populationSource, setPopulationSource] = useState('');
 
 function getDateString(date) {
   const year = date.getFullYear();
@@ -46,6 +43,10 @@ function normalizeDailyRainfall(raw) {
 }
 
 export default function SelectedLocationDashboard({ location }) {
+    const [population, setPopulation] = useState(null);
+const [populationLoading, setPopulationLoading] = useState(false);
+const [populationSource, setPopulationSource] = useState('');
+
   const [rainfall, setRainfall] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -154,12 +155,22 @@ export default function SelectedLocationDashboard({ location }) {
         />
 
         <StatCard
-          icon={Users}
-          label="Population"
-          value="Unavailable"
-          hint="Verified local population not connected yet"
-          tone="bg-amber-50 text-amber-600"
-        />
+  icon={Users}
+  label="Population"
+  value={
+  populationLoading
+    ? 'Loading...'
+    : Number.isFinite(population) && population !== null
+      ? population.toLocaleString('en-IN')
+      : 'Population data unavailable'
+}
+  hint={
+    populationSource
+      ? `Source: ${populationSource}`
+      : 'Verified population data not available'
+  }
+  tone="bg-amber-50 text-amber-600"
+/>
       </div>
 
       {loading && <div className="mt-4"><Loader text="Fetching rainfall for this location..." /></div>}
