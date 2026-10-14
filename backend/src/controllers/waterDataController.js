@@ -1,4 +1,5 @@
 import WaterData from "../models/WaterData.js";
+import { calculateWaterRisk } from "../utils/waterRisk.js";
 
 const createWaterData = async (req,res,next) => {
     try {
@@ -87,8 +88,14 @@ const updatedWaterData = async (req,res,next) => {
     try {
         const {id} = req.params;
 
-        const {location,groundwaterLevel,rainfall,waterBodyCondition} = req.body;
-
+const {
+    location,
+    groundwaterLevel,
+    rainfall,
+    waterBodyCondition,
+    latitude,
+    longitude
+} = req.body;
         const waterData = await WaterData.findByIdAndUpdate(
     id,
     {
@@ -114,7 +121,7 @@ const updatedWaterData = async (req,res,next) => {
 
             res.json({
                 success:true,
-                messgae:"water data updated successfully",
+                message:"water data updated successfully",
                 waterData
             })
     } catch (error) {
@@ -146,6 +153,7 @@ const deleteWaterData = async (req, res, next) => {
     }
 };
 
+
 const getWaterRiskScore = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -159,51 +167,23 @@ const getWaterRiskScore = async (req, res, next) => {
             });
         }
 
-        let score = 0;
+        const { score, riskLevel } = calculateWaterRisk({
+            groundwaterLevel: waterData.groundwaterLevel,
+            rainfall: waterData.rainfall,
+            waterBodyCondition: waterData.waterBodyCondition
+        });
 
-        if (waterData.groundwaterLevel < 5) {
-            score += 40;
-        } else if (waterData.groundwaterLevel < 10) {
-            score += 25;
-        } else {
-            score += 10;
-        }
-
-        if (waterData.rainfall < 500) {
-            score += 30;
-        } else if (waterData.rainfall < 1000) {
-            score += 20;
-        } else {
-            score += 10;
-        }
-
-        if (waterData.waterBodyCondition === "Poor") {
-            score += 30;
-        } else if (waterData.waterBodyCondition === "Moderate") {
-            score += 20;
-        } else {
-            score += 10;
-        }
-
-        let riskLevel;
-
-        if (score >= 70) {
-            riskLevel = "High";
-        } else if (score >= 40) {
-            riskLevel = "Medium";
-        } else {
-            riskLevel = "Low";
-        }
-
-        res.json({
+        return res.status(200).json({
             success: true,
             location: waterData.location,
             score,
-            riskLevel
+            riskLevel,
+            waterDataId: waterData._id
         });
 
     } catch (error) {
         next(error);
     }
 };
+
 export {createWaterData,getWaterdata,getWaterdataById,updatedWaterData,deleteWaterData,getWaterRiskScore};

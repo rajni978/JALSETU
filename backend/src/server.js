@@ -11,16 +11,15 @@ import suggestionRoutes from "./routes/suggestionRoutes.js";
 import panchayatRoutes from "./routes/panchayatRoutes.js";
 import priorityRoutes from "./routes/priorityRoutes.js";
 import monitoringRoutes from "./routes/monitoringRoutes.js";
-import panchayatDashboardRoutes
-    from "./routes/panchayatDashboardRoutes.js";
+import panchayatDashboardRoutes from "./routes/panchayatDashboardRoutes.js";
+import rainfallRoutes from "./routes/rainfallRoutes.js";
 
 dotenv.config()
 
 const app = express()
 app.use(express.json());
 
-app.use(express.json())
-
+app.use(cors())
 
 connectDB()
 
@@ -49,6 +48,7 @@ app.use("/api/panchayats", panchayatRoutes);
 app.use("/api/priority", priorityRoutes);
 app.use("/api/monitoring", monitoringRoutes);
 app.use( "/api/panchayat-dashboard", panchayatDashboardRoutes);
+app.use("/api/environment", rainfallRoutes);
 
 app.use((req, res) => {
     res.status(404).json({
@@ -59,6 +59,6 @@ app.use((req, res) => {
 
 app.use(errorMiddleware);
 
-app.listen(3000,()=>{
-    console.log(`Server running on http://localhost:3000`)
+app.listen(5000,()=>{
+    console.log(`Server running on http://localhost:5000`)
 })
