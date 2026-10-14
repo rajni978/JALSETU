@@ -1,15 +1,13 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
+// Layout for public pages (Home, About, How it works)
 export default function Layout() {
-  const home = useLocation().pathname === '/';
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      <main className="flex-1">
-        {home ? <Outlet /> : <div className="mx-auto max-w-6xl px-4 py-8"><Outlet /></div>}
-      </main>
+      <main className="flex-1"><Outlet /></main>
       <Footer />
     </div>
   );

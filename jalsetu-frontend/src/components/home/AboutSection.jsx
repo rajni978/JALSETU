@@ -1,4 +1,5 @@
 import { Droplets, Users, Landmark } from 'lucide-react';
+import Reveal from './Reveal';
 
 const BLOCKS = [
   { icon: Droplets, title: 'The problem', text: 'Many villages face dry handpumps and empty ponds every summer. The data exists, but it is scattered and hard for ordinary people to understand.' },
@@ -9,15 +10,19 @@ const BLOCKS = [
 export default function AboutSection() {
   return (
     <section>
-      <h2 className="text-2xl font-extrabold">About JALSETU</h2>
-      <p className="mt-2 max-w-2xl text-slate-600">JALSETU is a bridge (setu) between water data and community action.</p>
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
-        {BLOCKS.map(({ icon: Icon, title, text }) => (
-          <div key={title} className="rounded-2xl bg-white p-5 shadow-card">
-            <span className="mb-3 grid h-10 w-10 place-items-center rounded-xl bg-aqua-50 text-aqua-600"><Icon size={20} /></span>
-            <p className="font-bold text-navy-900">{title}</p>
-            <p className="mt-1 text-sm text-slate-600">{text}</p>
-          </div>
+      <Reveal>
+        <h2 className="text-3xl font-extrabold tracking-tight">About JALSETU</h2>
+        <p className="mt-2 max-w-2xl text-slate-600">JALSETU is a bridge (setu) between water data and community action.</p>
+      </Reveal>
+      <div className="mt-8 grid gap-5 md:grid-cols-3">
+        {BLOCKS.map(({ icon: Icon, title, text }, i) => (
+          <Reveal key={title} delay={i * 120}>
+            <div className="h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <span className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-aqua-400 to-aqua-600 text-white shadow-md"><Icon size={22} /></span>
+              <p className="text-lg font-bold text-navy-900">{title}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{text}</p>
+            </div>
+          </Reveal>
         ))}
       </div>
     </section>

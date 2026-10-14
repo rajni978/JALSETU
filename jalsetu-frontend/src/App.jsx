@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import AppLayout from './components/layout/AppLayout';
 import Home from './pages/Home';
 import About from './pages/About';
 import HowItWorks from './pages/HowItWorks';
@@ -31,6 +32,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
+        </Route>
+
+        <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/map" element={<MapView />} />
           <Route path="/what-can-i-do" element={<WhatCanIDo />} />
@@ -39,8 +43,9 @@ export default function App() {
           <Route path="/panchayat" element={<Panchayat />} />
           <Route path="/actions" element={<ActionTracker />} />
           <Route path="/monitoring" element={<Monitoring />} />
-          <Route path="*" element={<NotFound />} />
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

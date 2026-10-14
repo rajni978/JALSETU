@@ -9,4 +9,23 @@
 @layer components {
   .input { @apply w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-aqua-500 focus:ring-2 focus:ring-aqua-100; }
   .leaflet-container { font-family: inherit; }
+
+  /* Hero: your photo goes in public/hero.jpg. If it is missing, the gradient still looks good. */
+  .hero-bg {
+    background-color: #0b3d6e;
+    background-image:
+      linear-gradient(135deg, rgba(6, 34, 63, 0.92) 0%, rgba(11, 61, 110, 0.84) 45%, rgba(18, 169, 196, 0.72) 100%),
+      url('/hero.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Respect people who turn animations off in their system */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
