@@ -1,12 +1,39 @@
-export const validateReport = ({ areaId, village, category, urgency, description }) => {
+
+export const validateReport = ({
+  areaId,
+  locationName,
+  village,
+  category,
+  urgency,
+  description,
+}) => {
   const e = {};
-  if (!areaId) e.areaId = 'Select your area';
-  if (!village?.trim()) e.village = 'Enter the village or locality';
-  if (!category) e.category = 'Select a problem type';
-  if (!urgency) e.urgency = 'Select how urgent it is';
-  if (!description?.trim() || description.trim().length < 15) e.description = 'Describe the problem in at least 15 characters';
+
+  // Area ID ya searched location mein se koi ek hona chahiye
+  if (!areaId && !locationName?.trim()) {
+    e.areaId = 'Select your area';
+  }
+
+  if (!village?.trim()) {
+    e.village = 'Enter the village or locality';
+  }
+
+  if (!category) {
+    e.category = 'Select a problem type';
+  }
+
+  if (!urgency) {
+    e.urgency = 'Select how urgent it is';
+  }
+
+  if (!description?.trim() || description.trim().length < 15) {
+    e.description = 'Describe the problem in at least 15 characters';
+  }
+
   return e;
 };
+
+
 
 export const validateSuggestion = ({ areaId, title, category, description }) => {
   const e = {};

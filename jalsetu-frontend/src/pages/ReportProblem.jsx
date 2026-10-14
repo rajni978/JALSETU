@@ -15,15 +15,13 @@ export default function ReportProblem() {
 const { areas, areaId, selectedLocation, loading } = useArea(); 
 const blank = () => ({
   areaId: selectedLocation ? '' : areaId,
-  locationName: selectedLocation?.name || '',
-  latitude: selectedLocation?.latitude ?? null,
-  longitude: selectedLocation?.longitude ?? null,
   village: '',
   category: '',
   urgency: '',
   description: '',
   name: '',
-});  const [form, setForm] = useState(blank);
+});
+ const [form, setForm] = useState(blank);
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
@@ -39,18 +37,26 @@ const blank = () => ({
     if (Object.keys(errs).length) return;
     setSaving(true);
     try {
+
+const reportLocation = selectedLocation
+  ? selectedLocation.formatted || selectedLocation.name
+  : areas.find((a) => a.id === form.areaId)?.name;
+
 await createReport({
-  ...form,
-  name: form.name.trim() || 'Anonymous',
-  location: selectedLocation
-    ? {
-        name: selectedLocation.name,
-        formatted: selectedLocation.formatted,
-        latitude: selectedLocation.latitude,
-        longitude: selectedLocation.longitude,
-      }
-    : undefined,
-});      setDone(true);
+  problemType: form.category,
+  description: [
+    `Village/locality: ${form.village.trim()}`,
+    `Urgency: ${form.urgency}`,
+    form.name.trim()
+      ? `Reported by: ${form.name.trim()}`
+      : '',
+    `Problem: ${form.description.trim()}`,
+  ]
+    .filter(Boolean)
+    .join('\n'),
+  location: reportLocation,
+});
+     setDone(true);
     } catch (err) {
       setErrors({ form: err.response?.data?.message || 'Could not send your report. Please try again.' });
     } finally {

@@ -142,6 +142,7 @@ export const getRainfallData = async (req, res) => {
       });
     }
 
+    
     const lat = Number(latitude);
     const lon = Number(longitude);
 

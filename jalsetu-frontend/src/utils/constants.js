@@ -16,14 +16,15 @@ export const PANCHAYAT_LINKS = [
 ];
 export const PANCHAYAT_PATHS = PANCHAYAT_LINKS.map((l) => l.to);
 
+
 export const REPORT_CATEGORIES = [
-  'Dry handpump',
-  'Dried pond or water body',
-  'Dirty or contaminated water',
-  'Pipeline leakage',
-  'Water shortage in village',
-  'Other',
+  "Drying pond",
+  "Falling water level",
+  "Broken infrastructure",
+  "Suspected contamination",
+  "Other",
 ];
+
 
 export const INTERVENTION_CATEGORIES = [
   'Pond restoration',
