@@ -19,7 +19,7 @@ JalSetu combines environmental data and community observations to:
 - Visualize water-related risks
 - Understand contributing factors
 - Allow communities to report local water problems
-- Help Panchayats prioritize interventions
+- Help Panchayats prioritize intervenhas found it, please let me knowtions
 
 ## Core Approach
 
