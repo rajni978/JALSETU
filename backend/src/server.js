@@ -13,7 +13,7 @@ import priorityRoutes from "./routes/priorityRoutes.js";
 import monitoringRoutes from "./routes/monitoringRoutes.js";
 import panchayatDashboardRoutes from "./routes/panchayatDashboardRoutes.js";
 import rainfallRoutes from "./routes/rainfallRoutes.js";
-
+import cors from "cors"
 dotenv.config()
 
 const app = express()

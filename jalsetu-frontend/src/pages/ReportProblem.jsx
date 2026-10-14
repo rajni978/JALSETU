@@ -12,9 +12,18 @@ import Button from '../components/ui/Button';
 import Loader from '../components/common/Loader';
 
 export default function ReportProblem() {
-  const { areas, areaId, loading } = useArea();
-  const blank = () => ({ areaId, village: '', category: '', urgency: '', description: '', name: '' });
-  const [form, setForm] = useState(blank);
+const { areas, areaId, selectedLocation, loading } = useArea(); 
+const blank = () => ({
+  areaId: selectedLocation ? '' : areaId,
+  locationName: selectedLocation?.name || '',
+  latitude: selectedLocation?.latitude ?? null,
+  longitude: selectedLocation?.longitude ?? null,
+  village: '',
+  category: '',
+  urgency: '',
+  description: '',
+  name: '',
+});  const [form, setForm] = useState(blank);
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
@@ -30,8 +39,18 @@ export default function ReportProblem() {
     if (Object.keys(errs).length) return;
     setSaving(true);
     try {
-      await createReport({ ...form, name: form.name.trim() || 'Anonymous' });
-      setDone(true);
+await createReport({
+  ...form,
+  name: form.name.trim() || 'Anonymous',
+  location: selectedLocation
+    ? {
+        name: selectedLocation.name,
+        formatted: selectedLocation.formatted,
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
+      }
+    : undefined,
+});      setDone(true);
     } catch (err) {
       setErrors({ form: err.response?.data?.message || 'Could not send your report. Please try again.' });
     } finally {
@@ -58,11 +77,29 @@ export default function ReportProblem() {
       <PageHeader title="Report a water problem" subtitle="Tell us what is wrong. It takes less than a minute." />
       <Card className="mx-auto max-w-2xl">
         <form onSubmit={submit} noValidate className="grid gap-4 sm:grid-cols-2">
-          <Field label="Area" error={errors.areaId}>
-            <select className="input" value={form.areaId} onChange={set('areaId')}>
-              {areas.map((a) => <option key={a.id} value={a.id}>{a.name}, {a.district}</option>)}
-            </select>
-          </Field>
+          <Field label="Selected location" error={errors.areaId}>
+  {selectedLocation ? (
+    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+      <p className="font-semibold text-slate-800">
+        {selectedLocation.name}
+      </p>
+      <p className="mt-1 text-xs text-slate-500">
+        {selectedLocation.formatted}
+      </p>
+      <p className="mt-1 text-xs text-slate-500">
+        {selectedLocation.latitude}, {selectedLocation.longitude}
+      </p>
+    </div>
+  ) : (
+    <select className="input" value={form.areaId} onChange={set('areaId')}>
+      {areas.map((a) => (
+        <option key={a.id} value={a.id}>
+          {a.name}, {a.district}
+        </option>
+      ))}
+    </select>
+  )}
+</Field>
           <Field label="Village or locality" error={errors.village}>
             <input className="input" value={form.village} onChange={set('village')} placeholder="e.g. Barki" />
           </Field>

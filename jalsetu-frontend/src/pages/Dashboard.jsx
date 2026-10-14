@@ -15,8 +15,8 @@ import WhyList from '../components/common/WhyList';
 import RainfallChart from '../components/charts/RainfallChart';
 import TrendChart from '../components/charts/TrendChart';
 import WaterBodiesBar from '../components/charts/WaterBodiesBar';
-
-export default function Dashboard() {
+import SelectedLocationDashboard from './SelectedLocationDashboard';
+function ExistingAreaDashboard() {
   const { area, loading: areaLoading, error: areaError, reload } = useArea();
   const { data, loading, error, reload: reloadSeries } = useFetch(
     async () => ({ rain: await getRainfallSeries(area.id), gw: await getGroundwaterSeries(area.id) }),
@@ -70,4 +70,14 @@ export default function Dashboard() {
       </Card>
     </>
   );
+}
+
+export default function Dashboard() {
+  const { selectedLocation } = useArea();
+
+  if (selectedLocation) {
+    return <SelectedLocationDashboard location={selectedLocation} />;
+  }
+
+  return <ExistingAreaDashboard />;
 }
