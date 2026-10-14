@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
+import Loader from '../common/Loader';
 
 // Layout for all app pages: navy sidebar + top bar (like the design mockup)
 export default function AppLayout() {
@@ -18,7 +19,9 @@ export default function AppLayout() {
       <div className="lg:pl-64">
         <Topbar onMenu={() => setOpen(true)} />
         <main className="p-4 lg:p-8">
-          <div key={pathname} className="mx-auto max-w-7xl animate-fade-up"><Outlet /></div>
+          <div key={pathname} className="mx-auto max-w-7xl animate-fade-up">
+            <Suspense fallback={<Loader text="Loading page..." />}><Outlet /></Suspense>
+          </div>
         </main>
       </div>
     </div>

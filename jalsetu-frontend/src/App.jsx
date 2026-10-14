@@ -1,19 +1,21 @@
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import AppLayout from './components/layout/AppLayout';
 import Home from './pages/Home';
-import About from './pages/About';
-import HowItWorks from './pages/HowItWorks';
-import Dashboard from './pages/Dashboard';
-import MapView from './pages/MapView';
-import WhatCanIDo from './pages/WhatCanIDo';
-import ReportProblem from './pages/ReportProblem';
-import Community from './pages/Community';
-import Panchayat from './pages/Panchayat';
-import ActionTracker from './pages/ActionTracker';
-import Monitoring from './pages/Monitoring';
-import NotFound from './pages/NotFound';
+
+// Lazy pages: each one is downloaded only when the user opens it
+const About = lazy(() => import('./pages/About'));
+const HowItWorks = lazy(() => import('./pages/HowItWorks'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const MapView = lazy(() => import('./pages/MapView'));
+const WhatCanIDo = lazy(() => import('./pages/WhatCanIDo'));
+const ReportProblem = lazy(() => import('./pages/ReportProblem'));
+const Community = lazy(() => import('./pages/Community'));
+const Panchayat = lazy(() => import('./pages/Panchayat'));
+const ActionTracker = lazy(() => import('./pages/ActionTracker'));
+const Monitoring = lazy(() => import('./pages/Monitoring'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
