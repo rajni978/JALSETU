@@ -30,39 +30,49 @@ const blank = () => ({
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  const submit = async (e) => {
-    e.preventDefault();
-    const errs = validateReport(form);
-    setErrors(errs);
-    if (Object.keys(errs).length) return;
-    setSaving(true);
-    try {
+  
+const submit = async (e) => {
+  e.preventDefault();
 
-const reportLocation = selectedLocation
-  ? selectedLocation.formatted || selectedLocation.name
-  : areas.find((a) => a.id === form.areaId)?.name;
+  const reportLocation = selectedLocation
+    ? selectedLocation.formatted || selectedLocation.name
+    : areas.find((a) => a.id === form.areaId)?.name;
 
-await createReport({
-  problemType: form.category,
-  description: [
-    `Village/locality: ${form.village.trim()}`,
-    `Urgency: ${form.urgency}`,
-    form.name.trim()
-      ? `Reported by: ${form.name.trim()}`
-      : '',
-    `Problem: ${form.description.trim()}`,
-  ]
-    .filter(Boolean)
-    .join('\n'),
-  location: reportLocation,
-});
-     setDone(true);
-    } catch (err) {
-      setErrors({ form: err.response?.data?.message || 'Could not send your report. Please try again.' });
-    } finally {
-      setSaving(false);
-    }
+  const formToValidate = {
+    ...form,
+    areaId: form.areaId || areaId || (reportLocation ? "selected-location" : ""),
   };
+
+  const errs = validateReport(formToValidate);
+  setErrors(errs);
+
+  if (Object.keys(errs).length) return;
+
+  setSaving(true);
+
+  try {
+    await createReport({
+      problemType: form.category,
+      description: [
+        `Village/locality: ${form.village.trim()}`,
+        `Urgency: ${form.urgency}`,
+        form.name.trim() ? `Reported by: ${form.name.trim()}` : "",
+        `Problem: ${form.description.trim()}`,
+      ].filter(Boolean).join("\n"),
+      location: reportLocation,
+    });
+
+    setDone(true);
+  } catch (err) {
+    setErrors({
+      form: err.response?.data?.message ||
+        "Could not send your report. Please try again.",
+    });
+  } finally {
+    setSaving(false);
+  }
+};
+
 
   if (done) {
     return (

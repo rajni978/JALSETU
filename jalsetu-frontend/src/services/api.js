@@ -4,9 +4,14 @@ export const USE_MOCK = import.meta.env.VITE_USE_MOCK !== 'false';
 
 // Single axios instance - backend teammate only needs to set VITE_API_URL
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_GEOAPIFY_KEY || 'http://localhost:5000/api',
   timeout: 15000,
 });
+
+console.log(
+  "Geoapify key loaded:",
+  Boolean(import.meta.env.VITE_GEOAPIFY_KEY)
+);
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('jalsetu_token');
