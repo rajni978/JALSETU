@@ -16,6 +16,7 @@ import RainfallChart from '../components/charts/RainfallChart';
 import TrendChart from '../components/charts/TrendChart';
 import WaterBodiesBar from '../components/charts/WaterBodiesBar';
 import SelectedLocationDashboard from './SelectedLocationDashboard';
+import LocationDataCards from '../components/common/LocationDataCards';
 function ExistingAreaDashboard() {
   const { area, loading: areaLoading, error: areaError, reload } = useArea();
   const { data, loading, error, reload: reloadSeries } = useFetch(

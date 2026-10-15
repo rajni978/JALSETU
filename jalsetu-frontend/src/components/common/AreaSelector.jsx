@@ -41,7 +41,7 @@ export default function AreaSelector() {
       const key = import.meta.env.VITE_GEOAPIFY_KEY;
 
       if (!key) {
-        setError('Geoapify API key .env mein nahi mili.');
+        setError('Geoapify API key not found.');
         return;
       }
 
@@ -62,7 +62,7 @@ export default function AreaSelector() {
         );
 
         if (!response.ok) {
-          throw new Error('Location search failed. API key check karein.');
+          throw new Error('Location search failed. Please check your API key.');
         }
 
         const data = await response.json();
@@ -158,7 +158,7 @@ export default function AreaSelector() {
 
           {!loading && !error && q.trim().length > 0 && q.trim().length < 3 && (
             <p className="px-3 py-3 text-sm text-slate-500">
-              Kam se kam 3 characters type karein.
+             Type atleaset 3 character
             </p>
           )}
 
@@ -188,12 +188,12 @@ export default function AreaSelector() {
 
           {!loading && !error && q.trim().length >= 3 && results.length === 0 && (
             <p className="px-3 py-4 text-center text-sm text-slate-500">
-              Koi location nahi mili. Spelling check karke try karein.
+              No Location found . Please check your spelling.
             </p>
           )}
 
           <p className="px-3 pb-1 pt-2 text-xs text-slate-400">
-            {areas.length} existing water-data areas · New locations online search se
+            {areas.length} existing water-data areas · New locations from  online search
           </p>
         </div>
       )}
