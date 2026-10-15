@@ -36,7 +36,7 @@ export function AreaProvider({ children }) {
   localStorage.setItem('jalsetu_location', JSON.stringify(location));
   setSelectedLocation(location);
 
-  // Existing predefined area ho to uska ID bhi update hoga
+// If the location matches an existing predefined area, its ID will also be updated.
   const existingArea = areas.find(
     (a) =>
       a.name?.toLowerCase() === location.name?.toLowerCase()

@@ -1,9 +1,6 @@
-// Converts Kajal's WaterData records (backend) into the "area" shape used by the UI.
-// Backend fields: location, groundwaterLevel, rainfall, waterBodyCondition, latitude, longitude, createdAt
+
 import { stressLevel } from './stress';
 
-// Same rules as Kajal's getWaterRiskScore (waterDataController.js).
-// Used only to EXPLAIN the score in the "Why?" section. Score + level come from the backend /risk route.
 function buildStress(w, risk) {
   const g = w.groundwaterLevel;
   const r = w.rainfall;

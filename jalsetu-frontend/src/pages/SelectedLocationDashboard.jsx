@@ -87,7 +87,7 @@ const [populationSource, setPopulationSource] = useState('');
         if (!cancelled) {
           setError(
             err.response?.data?.message ||
-              'Rainfall data load nahi hua. Backend aur API check karein.'
+              '- Failed to load rainfall data. Please check the backend and API.'
           );
         }
       } finally {
@@ -101,7 +101,7 @@ const [populationSource, setPopulationSource] = useState('');
     ) {
       loadRainfall();
     } else {
-      setError('Selected location ke valid coordinates nahi mile.');
+      setError('Valid coordinates were not found for the selected location..');
       setLoading(false);
     }
 
@@ -178,7 +178,7 @@ const [populationSource, setPopulationSource] = useState('');
       {error && (
         <div className="mt-4">
           <ErrorState message={error} onRetry={() => {
-            setError('Retry karne ke liye page refresh karein.');
+            setError('Please refresh the page to try again');
           }} />
         </div>
       )}
@@ -194,7 +194,7 @@ const [populationSource, setPopulationSource] = useState('');
 
           {dailyRows.length === 0 ? (
             <p className="text-sm text-slate-500">
-              API se total rainfall mila, lekin daily records available nahi hain.
+              Total rainfall was received from the API, but daily records are unavailable.
             </p>
           ) : (
             <div className="overflow-x-auto">
